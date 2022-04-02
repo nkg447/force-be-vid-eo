@@ -1,8 +1,8 @@
 
 {
-  "name": "ControlR",
+  "name": "force-be-vid-eo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Control your browser video remotely.",
   "main": "./server/index.js",
   "scripts": {
     "start": "node ./server/index.js"
