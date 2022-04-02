@@ -10,22 +10,34 @@
   <body>
     <div id="player">
       <div id="previous">
-        <img class="icon" src="./assets/icons/previous.png" />
+        <div
+          class="icon"
+          style="transform: rotateY(180deg)"
+          src="./assets/icons/next.svg"
+        ></div>
       </div>
       <div id="rewind">
-        <img class="icon" src="./assets/icons/rewind.png" />
+        <div
+          class="icon"
+          style="transform: rotateY(180deg)"
+          src="./assets/icons/forward.svg"
+        ></div>
       </div>
       <div id="play-pause">
-        <img class="icon" id="play" src="./assets/icons/play.png" />
-        <img hidden class="icon" id="pause" src="./assets/icons/pause.png" />
+        <div class="icon" id="play" src="./assets/icons/play.svg"></div>
+        <div
+          hidden
+          class="icon"
+          id="pause"
+          src="./assets/icons/pause.svg"
+        ></div>
       </div>
       <div id="forward">
-        <img class="icon" src="./assets/icons/forward.png" />
+        <div class="icon" src="./assets/icons/forward.svg"></div>
       </div>
       <div id="next">
-        <img class="icon" src="./assets/icons/next.png" />
+        <div class="icon" src="./assets/icons/next.svg"></div>
       </div>
-      <script src="./js/script.js"></script>
     </div>
     <div id="join">
       <form id="form" action="/join" method="get">
@@ -33,5 +45,6 @@
         <button>Join</button>
       </form>
     </div>
+    <script src="./js/script.js"></script>
   </body>
 </html>

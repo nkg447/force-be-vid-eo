@@ -36,9 +36,9 @@ io.on("connection", (socket) => {
 });
 
 app.post("/api", function (req, resp) {
-  const id = getConnectionId(req);
+  const {id, command, ...otherData} = req.body;
   console.log(req.body);
-  io.to(id).emit(req.body.command, { id: id });
+  io.to(id).emit(command, { ...otherData });
   resp.send("OK");
 });
 

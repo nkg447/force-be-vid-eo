@@ -1,5 +1,6 @@
 const id = new URLSearchParams(window.location.search).get("id");
-
+const SEEK_TIME = 30;
+setAllIcons();
 document.addEventListener("DOMContentLoaded", () => {
   if (id != null) {
     document.getElementById("player").style.display = "flex";
@@ -21,7 +22,7 @@ function enablePlayer() {
   let isPaused = true;
 
   forward.onclick = () => {
-    executeCommand("forward");
+    executeCommand("forward", { data: SEEK_TIME });
   };
 
   next.onclick = () => {
@@ -33,7 +34,7 @@ function enablePlayer() {
   };
 
   rewind.onclick = () => {
-    executeCommand("rewind");
+    executeCommand("rewind", { data: SEEK_TIME });
   };
 
   playPause.onclick = () => {
@@ -49,10 +50,10 @@ function enablePlayer() {
     }
   };
 
-  function executeCommand(command) {
+  function executeCommand(command, data = {}) {
     fetch("/api", {
       method: "POST",
-      body: JSON.stringify({ command: command, id: id }),
+      body: JSON.stringify({ ...data, command: command, id: id }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -60,5 +61,18 @@ function enablePlayer() {
       .then((data) => data.text())
       .then(console.log)
       .catch(console.log);
+  }
+}
+function setAllIcons() {
+  let icons = document.getElementsByClassName("icon");
+  for (let i = 0; i < icons.length; i++) {
+    const src = icons[i].attributes.src.value;
+    fetch(src)
+      .then((data) => data.text())
+      .then((html) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "image/svg+xml");
+        icons[i].append(doc.documentElement);
+      });
   }
 }

@@ -13,6 +13,14 @@ class Player {
   pause = () => {
     this.video.pause();
   };
+
+  forward = (data) => {
+    this.video.currentTime += Number(data);
+  };
+
+  rewind = (data) => {
+    this.video.currentTime -= Number(data);
+  };
 }
 
 socket.on("play", (data) => {
@@ -23,6 +31,16 @@ socket.on("play", (data) => {
 socket.on("pause", (data) => {
   console.log("pause");
   getCurrentPlayer().pause();
+});
+
+socket.on("forward", ({ data }) => {
+  console.log("forward");
+  getCurrentPlayer().forward(data);
+});
+
+socket.on("rewind", ({ data }) => {
+  console.log("rewind");
+  getCurrentPlayer().rewind(data);
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

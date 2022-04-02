@@ -1,9 +1,15 @@
+* {
+  color: #bdc1c6;
+  fill: #bdc1c6;
+}
+
 body {
   overflow: hidden;
+  background-color: #202124;
 }
 
 #player {
-  width: 100vw;
+  width: 95vw;
   height: 100vh;
   display: none;
   justify-content: space-around;
@@ -12,7 +18,10 @@ body {
 
 .icon {
   height: 15vw;
+  width: 15vw;
+  cursor: pointer;
 }
+
 #join {
   display: none;
 }
