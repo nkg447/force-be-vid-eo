@@ -1,4 +1,4 @@
-const SERVER_BASE = "http://localhost:4001";
+const SERVER_BASE = "https://forcebevideo.herokuapp.com";
 const socket = io.connect(SERVER_BASE);
 
 class Player {
@@ -20,6 +20,14 @@ class Player {
 
   rewind = (data) => {
     this.video.currentTime -= Number(data);
+  };
+
+  louder = (data) => {
+    this.video.volume += Number(data);
+  };
+
+  quieter = (data) => {
+    this.video.volume -= Number(data);
   };
 }
 
@@ -43,6 +51,16 @@ socket.on("rewind", ({ data }) => {
   getCurrentPlayer().rewind(data);
 });
 
+socket.on("louder", ({ data }) => {
+  console.log("louder");
+  getCurrentPlayer().louder(data);
+});
+
+socket.on("quieter", ({ data }) => {
+  console.log("quieter");
+  getCurrentPlayer().quieter(data);
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   socket.emit("create", { id: request.id, joinCode: request.joinCode });
   sendResponse("Id Received");
@@ -58,6 +76,8 @@ function getCurrentPlayer() {
       .iterateNext();
   } else if (host.includes("primevideo")) {
     video = document.querySelector(".rendererContainer video");
+  } else if (host.includes("hotstar")) {
+    video = document.querySelector(".playing");
   }
   return new Player(video);
 }

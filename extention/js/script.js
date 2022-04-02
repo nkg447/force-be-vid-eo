@@ -1,4 +1,4 @@
-const SERVER_BASE = "http://[2405:201:681a:492c:f898:a6cd:654d:4ce4]:4001";
+const SERVER_BASE = "https://forcebevideo.herokuapp.com";
 const JOIN_CODE = getRandomJoinCode();
 init();
 

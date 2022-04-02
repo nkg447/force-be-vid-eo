@@ -16,7 +16,11 @@
     }
   },
   "permissions": ["tabs", "scripting", "storage"],
-  "host_permissions": ["https://www.netflix.com/*", "https://www.primevideo.com/*"],
+  "host_permissions": [
+    "https://www.netflix.com/*",
+    "https://www.primevideo.com/*",
+    "https://www.hotstar.com/*"
+  ],
   "icons": {
     "16": "/images/logo/logo.png",
     "32": "/images/logo/logo.png",

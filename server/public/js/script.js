@@ -1,5 +1,6 @@
 const id = new URLSearchParams(window.location.search).get("id");
 const SEEK_TIME = 30;
+const VOLUME_SEEK = 0.1;
 setAllIcons();
 document.addEventListener("DOMContentLoaded", () => {
   if (id != null) {
@@ -12,12 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function enablePlayer() {
   const forward = document.getElementById("forward");
-  const next = document.getElementById("next");
+  // const next = document.getElementById("next");
   const playPause = document.getElementById("play-pause");
   const play = document.getElementById("play");
   const pause = document.getElementById("pause");
-  const previous = document.getElementById("previous");
+  // const previous = document.getElementById("previous");
   const rewind = document.getElementById("rewind");
+  const louder = document.getElementById("louder");
+  const quieter = document.getElementById("quieter");
 
   let isPaused = true;
 
@@ -25,13 +28,21 @@ function enablePlayer() {
     executeCommand("forward", { data: SEEK_TIME });
   };
 
-  next.onclick = () => {
-    executeCommand("next");
+  quieter.onclick = () => {
+    executeCommand("quieter", { data: VOLUME_SEEK });
   };
 
-  previous.onclick = () => {
-    executeCommand("previous");
+  louder.onclick = () => {
+    executeCommand("louder", { data: VOLUME_SEEK });
   };
+
+  // next.onclick = () => {
+  //   executeCommand("next");
+  // };
+
+  // previous.onclick = () => {
+  //   executeCommand("previous");
+  // };
 
   rewind.onclick = () => {
     executeCommand("rewind", { data: SEEK_TIME });
