@@ -1,0 +1,26 @@
+{
+  "name": "ControlR",
+  "description": "Control your browser from your phone.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "/images/logo/logo.png",
+      "32": "/images/logo/logo.png",
+      "48": "/images/logo/logo.png",
+      "128": "/images/logo/logo.png"
+    }
+  },
+  "permissions": ["tabs", "scripting", "storage"],
+  "host_permissions": ["https://www.netflix.com/*", "https://www.primevideo.com/*"],
+  "icons": {
+    "16": "/images/logo/logo.png",
+    "32": "/images/logo/logo.png",
+    "48": "/images/logo/logo.png",
+    "128": "/images/logo/logo.png"
+  }
+}

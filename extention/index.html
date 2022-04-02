@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="main">
+      <div id="enable-btn" class="section">
+        <img src="./images/icon/off-button.png" class="icon" />
+        <span id="status">Disabled</span>
+      </div>
+      <div id="connect-info">
+        <div id="join-info" class="section">
+          <span>Join by scanning the QR code</span>
+          <span>OR</span>
+          <span>Copy the link directly</span>
+          <span>OR</span>
+          <span>Use Join Code at <a id="website"></a></span>
+        </div>
+        <div id="qr-container" class="section">
+          <canvas id="qr"></canvas>
+        </div>
+        <div class="section">
+          <span>Link : <a id="qr-link"></a></span>
+        </div>
+        <div class="section">
+          <span>Join Code : <span id="join-code"></span></span>
+        </div>
+      </div>
+    </div>
+    <script src="./js/external/qrious.min.js"></script>
+    <script src="./js/script.js"></script>
+  </body>
+</html>

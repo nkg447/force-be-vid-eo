@@ -1,0 +1,48 @@
+body {
+  overflow: hidden;
+}
+
+#player {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.icon {
+  height: 15vw;
+}
+#join {
+  display: none;
+}
+
+input{
+    font-size: 4em;
+    border: none;
+    border-bottom: 2px solid;
+}
+
+button{
+    border: none;
+    background: gray;
+    font-size: 3em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    color: white;
+    border-radius: 5px;
+    margin: 50px;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: darkgray;
+}
+
+#form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}

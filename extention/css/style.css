@@ -1,0 +1,50 @@
+* {
+  color: #bdc1c6;
+}
+body {
+  width: 20em;
+  background-color: #202124;
+}
+
+.icon {
+  width: 30px;
+  margin-right: 5px;
+}
+
+#enable-btn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#enable-btn:hover {
+  cursor: pointer;
+  background-color: gray;
+}
+
+#join-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#connect-info{
+    display: none;
+}
+
+#qr-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.section a {
+  color: #8ab4f8;
+  word-wrap: break-word;
+}
+
+.section {
+  background-color: #202124;
+  margin-bottom: 2px;
+  padding: 2px;
+  border-radius: 5px;
+}

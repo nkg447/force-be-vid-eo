@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control R</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="player">
+      <div id="previous">
+        <img class="icon" src="./assets/icons/previous.png" />
+      </div>
+      <div id="rewind">
+        <img class="icon" src="./assets/icons/rewind.png" />
+      </div>
+      <div id="play-pause">
+        <img class="icon" id="play" src="./assets/icons/play.png" />
+        <img hidden class="icon" id="pause" src="./assets/icons/pause.png" />
+      </div>
+      <div id="forward">
+        <img class="icon" src="./assets/icons/forward.png" />
+      </div>
+      <div id="next">
+        <img class="icon" src="./assets/icons/next.png" />
+      </div>
+      <script src="./js/script.js"></script>
+    </div>
+    <div id="join">
+      <form id="form" action="/join" method="get">
+        <input type="text" name="code" placeholder="Join Code here" />
+        <button>Join</button>
+      </form>
+    </div>
+  </body>
+</html>
