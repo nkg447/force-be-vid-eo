@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Force be Vid-eo</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="logo">
+      <span style="margin-bottom: 1em">_______________</span>
+      <h1>Force be Vid-eo</h1>
+      <h3>control video remotely</h3>
+      <span>_______________</span>
+    </div>
+    <div id="player" style="display: none">
+      <div id="control">
+        <div id="rewind">
+          <div
+            class="icon"
+            style="transform: rotateY(180deg)"
+            src="./assets/icons/forward.svg"
+          ></div>
+        </div>
+        <div id="play-pause">
+          <div class="icon" id="play" src="./assets/icons/play.svg"></div>
+          <div
+            hidden
+            class="icon"
+            id="pause"
+            src="./assets/icons/pause.svg"
+          ></div>
+        </div>
+        <div id="forward">
+          <div class="icon" src="./assets/icons/forward.svg"></div>
+        </div>
+      </div>
+      <div id="volume">
+        <div id="quieter">
+          <div class="icon" src="./assets/icons/quieter.svg"></div>
+        </div>
+        <div id="louder">
+          <div class="icon" src="./assets/icons/louder.svg"></div>
+        </div>
+      </div>
+    </div>
+    <div id="join">
+      <form id="form" action="/join" method="get">
+        <input type="text" name="code" placeholder="Join Code here" />
+        <button>Join</button>
+      </form>
+    </div>
+    <script src="./js/script.js"></script>
+  </body>
+</html>

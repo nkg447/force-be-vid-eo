@@ -1,0 +1,79 @@
+* {
+  color: #bdc1c6;
+  fill: #bdc1c6;
+}
+
+body {
+  overflow: hidden;
+  height: 100vh;
+  background-color: #202124;
+}
+
+#control, #volume {
+  width: 95vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+#player {
+  display: flex;
+  flex-direction: column;
+  height: 95vh;
+  justify-content: center;
+}
+
+#logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#logo h3,
+#logo h1 {
+  margin: 0;
+  font-family: "Roboto Condensed", sans-serif;
+  letter-spacing: 3px;
+}
+
+.icon {
+  height: 20vw;
+  width: 20vw;
+  cursor: pointer;
+}
+
+#join {
+  display: none;
+}
+
+input {
+  font-size: 2em;
+  border: none;
+  border-bottom: 2px solid;
+}
+
+button {
+  border: none;
+  background: gray;
+  font-size: 2em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  color: white;
+  border-radius: 5px;
+  margin: 50px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: darkgray;
+}
+
+#form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}

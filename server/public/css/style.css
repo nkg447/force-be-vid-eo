@@ -1,6 +1,11 @@
 * {
   color: #bdc1c6;
   fill: #bdc1c6;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+span {
+  font-family: initial;
 }
 
 body {
@@ -9,26 +14,41 @@ body {
   background-color: #202124;
 }
 
-#control, #volume {
-  width: 95vw;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-
-#player {
+.heading {
   display: flex;
   flex-direction: column;
-  height: 95vh;
-  justify-content: center;
+  align-items: center;
 }
 
 #logo {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 3.3vw;
+}
+
+.btn-grp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.3vw;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.button {
+  border: 2px solid;
+  margin: 1vw;
+  padding: 1.5vw;
+  border-radius: 10px;
+  font-size: 1.5vw;
+}
+
+#extention {
+  background-color: #bdc1c6;
+  color: #202124;
 }
 
 #logo h3,
@@ -38,42 +58,12 @@ body {
   letter-spacing: 3px;
 }
 
-.icon {
-  height: 20vw;
-  width: 20vw;
-  cursor: pointer;
-}
+@media (orientation: portrait) {
+  #logo {
+    font-size: 5vw;
+  }
 
-#join {
-  display: none;
-}
-
-input {
-  font-size: 2em;
-  border: none;
-  border-bottom: 2px solid;
-}
-
-button {
-  border: none;
-  background: gray;
-  font-size: 2em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  color: white;
-  border-radius: 5px;
-  margin: 50px;
-}
-
-button:hover {
-  cursor: pointer;
-  background-color: darkgray;
-}
-
-#form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
+  .button{
+      font-size: 5vw;
+  }
 }
