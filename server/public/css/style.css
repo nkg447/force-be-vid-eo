@@ -9,7 +9,6 @@ span {
 }
 
 body {
-  overflow: hidden;
   height: 100vh;
   background-color: #202124;
 }
@@ -46,16 +45,107 @@ body {
   font-size: 1.5vw;
 }
 
+.button:hover {
+  cursor: pointer;
+  background-color: #bdc1c6;
+  color: #202124;
+}
+
 #extention {
   background-color: #bdc1c6;
   color: #202124;
 }
 
+#extention:hover {
+  background-color: #202124;
+  color: #bdc1c6;
+}
+
 #logo h3,
 #logo h1 {
   margin: 0;
-  font-family: "Roboto Condensed", sans-serif;
   letter-spacing: 3px;
+}
+
+#i1 {
+  background-color: #bdc1c6;
+}
+#i1 * {
+  color: #202124;
+}
+#i2 {
+  background-color: #202124;
+}
+#i2 * {
+  color: #bdc1c6;
+}
+
+.info {
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
+}
+.info * {
+  color: #202124;
+}
+
+.info .media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vw;
+}
+
+.media img {
+  border: 2px solid;
+}
+
+.landscape {
+  width: 100%;
+}
+.portrait {
+  height: 30vw;
+}
+
+.landscape img {
+  width: 100%;
+}
+.portrait img {
+  height: 100%;
+}
+
+.info .container {
+  width: 50vw;
+}
+
+.title {
+  font-size: 2em;
+  font-family: "Roboto", sans-serif;
+  margin: 10px;
+}
+
+.body {
+  font-size: 1.5em;
+  margin: 10px;
+  width: 70%;
+}
+
+#platforms {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+#platforms img {
+  width: 5em;
+  margin: 10px;
+}
+
+@media (orientation: landscape) {
+  .heading {
+    height: 100vh;
+  }
 }
 
 @media (orientation: portrait) {
@@ -63,7 +153,25 @@ body {
     font-size: 5vw;
   }
 
-  .button{
-      font-size: 5vw;
+  .button {
+    font-size: 5vw;
+  }
+
+  .info {
+    flex-direction: column;
+  }
+
+  .info .media,
+  .info .container {
+    width: 90vw;
+    align-items: center;
+  }
+
+  .landscape {
+    width: 90vw;
+  }
+
+  .portrait {
+    height: 60vw;
   }
 }

@@ -1,4 +1,4 @@
-const SERVER_BASE = "https://forcebevideo.herokuapp.com";
+const SERVER_BASE = "https://forcebevideo.herokuapp.com/app";
 const JOIN_CODE = getRandomJoinCode();
 init();
 
