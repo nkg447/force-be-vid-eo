@@ -78,6 +78,8 @@ function getCurrentPlayer() {
     video = document.querySelector(".rendererContainer video");
   } else if (host.includes("hotstar")) {
     video = document.querySelector(".playing");
+  } else if (host.includes("youtube")) {
+    video = document.querySelector(".video-stream.html5-main-video");
   }
   return new Player(video);
 }

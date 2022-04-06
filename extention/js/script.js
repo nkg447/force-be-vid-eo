@@ -1,8 +1,29 @@
 const SERVER_BASE = "https://forcebevideo.herokuapp.com/app";
 const JOIN_CODE = getRandomJoinCode();
+const SUPPORTED_PLATFORMS = [
+  "https://www.netflix.com",
+  "https://www.hotstar.com",
+  "https://www.primevideo.com",
+  "https://www.youtube.com"
+];
 init();
 
 function init() {
+  doOnCurrentTab((tab) => {
+    let supported = false;
+    for(let i=0;i<SUPPORTED_PLATFORMS.length;i++){
+      if(tab.url.startsWith(SUPPORTED_PLATFORMS[i])){
+        supported = true;
+        break;
+      }
+    }
+    if(supported){
+      document.getElementById("enable-btn").style.display = "flex";
+    }else{
+      document.getElementById("not-supported").style.display = "unset";
+    }
+  });
+
   doOnCurrentTab((tab) => {
     if (localStorage.getItem(`document-${tab.id}`) != null) {
       document.body.innerHTML = localStorage.getItem(`document-${tab.id}`);

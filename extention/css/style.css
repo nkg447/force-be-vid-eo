@@ -11,8 +11,13 @@ body {
   margin-right: 5px;
 }
 
+#not-supported {
+  display: none;
+}
+
 #enable-btn {
-  display: flex;
+  /* display: flex; */
+  display: none;
   justify-content: flex-start;
   align-items: center;
 }
@@ -28,8 +33,8 @@ body {
   align-items: center;
 }
 
-#connect-info{
-    display: none;
+#connect-info {
+  display: none;
 }
 
 #qr-container {
