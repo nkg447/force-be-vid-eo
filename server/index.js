@@ -52,7 +52,7 @@ app.get("/join", function (req, resp) {
   const joinCode = req.query.code;
   const id = getIdFromJoinCode(joinCode);
   log({ joinCode, id, ip });
-  resp.redirect(`/?id=${id}`);
+  resp.redirect(`/app?id=${id}`);
 });
 
 function getIdFromJoinCode(joinCode) {
