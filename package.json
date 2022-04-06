@@ -1,11 +1,10 @@
-
 {
   "name": "force-be-vid-eo",
   "version": "1.0.0",
   "description": "Control your browser video remotely.",
   "main": "./server/index.js",
   "scripts": {
-    "start": "node ./server/index.js > log.log"
+    "start": "node ./server/index.js"
   },
   "author": "nikunj gupta",
   "license": "ISC",
@@ -13,6 +12,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "lodash": "^4.17.21",
+    "node-fetch": "^3.2.3",
     "socket.io": "^4.4.1",
     "uuid": "^8.3.2"
   }

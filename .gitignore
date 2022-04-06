@@ -4,3 +4,4 @@ package-lock.json
 forcebevideo.pem
 extention.zip
 log.log
+.env
