@@ -1,7 +1,7 @@
 {
-  "name": "Force be Vid-eo",
+  "name": "Force be Vid-eo | Control Video Remotely",
   "description": "Control your browser video remotely.",
-  "version": "1.0",
+  "version": "1.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
