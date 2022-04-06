@@ -1,5 +1,6 @@
 const express = require("express");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const http = require("http");
 const socketIo = require("socket.io");
 const port = process.env.PORT || 4001;
@@ -16,6 +17,8 @@ const io = socketIo(server, {
     credentials: true,
   },
 });
+const requestIp = require("request-ip");
+app.use(requestIp.mw());
 const indexOf = require("lodash/indexOf");
 const isEqual = require("lodash/isEqual");
 const difference = require("lodash/difference");
@@ -27,7 +30,8 @@ app.use(express.static("./server/public"));
 
 io.on("connection", (socket) => {
   socket.on("create", ({ id, joinCode }) => {
-    log({ connected: id });
+    const clientIp = socket.request.connection.remoteAddress;
+    log({ connected: id, clientIp });
     socket.leaveAll();
     socket.join(id);
     JOIN_CODE_MAP[joinCode] = id;
@@ -36,16 +40,18 @@ io.on("connection", (socket) => {
 });
 
 app.post("/api", function (req, resp) {
+  const ip = req.clientIp;
   const { id, command, ...otherData } = req.body;
-  log({ id, command });
+  log({ id, command, ip });
   io.to(id).emit(command, { ...otherData });
   resp.send("OK");
 });
 
 app.get("/join", function (req, resp) {
+  const ip = req.clientIp;
   const joinCode = req.query.code;
   const id = getIdFromJoinCode(joinCode);
-  log({ joinCode, id });
+  log({ joinCode, id, ip });
   resp.redirect(`/?id=${id}`);
 });
 
@@ -61,6 +67,7 @@ function getConnectionId(req) {
 }
 
 function log(data) {
+  console.log(data);
   fetch(`http://logs-01.loggly.com/inputs/${loggyApiKey}/tag/http/`, {
     method: "POST",
     headers: {
