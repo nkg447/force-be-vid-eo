@@ -24,10 +24,9 @@ const JOIN_CODE_MAP = {};
 app.use(express.static("./server/public"));
 
 io.on("connection", (socket) => {
-  console.log("user connected");
 
   socket.on("create", ({ id, joinCode }) => {
-    console.log("connected a client with id - ", id);
+    console.log("client connected", id);
     socket.leaveAll();
     socket.join(id);
     JOIN_CODE_MAP[joinCode] = id;
@@ -37,7 +36,7 @@ io.on("connection", (socket) => {
 
 app.post("/api", function (req, resp) {
   const {id, command, ...otherData} = req.body;
-  console.log(req.body);
+  console.log(id, command);
   io.to(id).emit(command, { ...otherData });
   resp.send("OK");
 });
@@ -45,6 +44,7 @@ app.post("/api", function (req, resp) {
 app.get("/join", function (req, resp) {
   const joinCode = req.query.code;
   const id = getIdFromJoinCode(joinCode);
+  console.log(joinCode, id);
   resp.redirect(`/?id=${id}`);
 });
 

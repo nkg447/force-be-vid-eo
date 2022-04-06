@@ -5,7 +5,7 @@
   "description": "Control your browser video remotely.",
   "main": "./server/index.js",
   "scripts": {
-    "start": "node ./server/index.js"
+    "start": "node ./server/index.js > log.log"
   },
   "author": "nikunj gupta",
   "license": "ISC",
