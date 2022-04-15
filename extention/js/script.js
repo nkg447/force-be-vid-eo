@@ -4,7 +4,8 @@ const SUPPORTED_PLATFORMS = [
   "https://www.netflix.com",
   "https://www.hotstar.com",
   "https://www.primevideo.com",
-  "https://www.youtube.com"
+  "https://www.youtube.com",
+  "file://"
 ];
 init();
 

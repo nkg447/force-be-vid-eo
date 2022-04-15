@@ -80,6 +80,8 @@ function getCurrentPlayer() {
     video = document.querySelector(".playing");
   } else if (host.includes("youtube")) {
     video = document.querySelector(".video-stream.html5-main-video");
+  } else{
+    video = document.querySelector("video");
   }
   return new Player(video);
 }
