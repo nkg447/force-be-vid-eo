@@ -1,6 +1,7 @@
 const id = new URLSearchParams(window.location.search).get("id");
 const SEEK_TIME = 30;
 const VOLUME_SEEK = 0.1;
+const PLAYBACK_SEEK = 0.1;
 setAllIcons();
 document.addEventListener("DOMContentLoaded", () => {
   if (id != null) {
@@ -13,14 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function enablePlayer() {
   const forward = document.getElementById("forward");
-  // const next = document.getElementById("next");
   const playPause = document.getElementById("play-pause");
   const play = document.getElementById("play");
   const pause = document.getElementById("pause");
-  // const previous = document.getElementById("previous");
   const rewind = document.getElementById("rewind");
   const louder = document.getElementById("louder");
   const quieter = document.getElementById("quieter");
+  const faster = document.getElementById("faster");
+  const slower = document.getElementById("slower");
+  const previous = document.getElementById("previous");
+  const next = document.getElementById("next");
 
   let isPaused = true;
 
@@ -36,13 +39,21 @@ function enablePlayer() {
     executeCommand("louder", { data: VOLUME_SEEK });
   };
 
-  // next.onclick = () => {
-  //   executeCommand("next");
-  // };
+  faster.onclick = () => {
+    executeCommand("faster", { data: PLAYBACK_SEEK });
+  };
 
-  // previous.onclick = () => {
-  //   executeCommand("previous");
-  // };
+  slower.onclick = () => {
+    executeCommand("slower", { data: PLAYBACK_SEEK });
+  };
+
+  next.onclick = () => {
+    executeCommand("next");
+  };
+
+  previous.onclick = () => {
+    executeCommand("previous");
+  };
 
   rewind.onclick = () => {
     executeCommand("rewind", { data: SEEK_TIME });

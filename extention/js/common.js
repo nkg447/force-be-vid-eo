@@ -29,6 +29,21 @@ class Player {
   quieter = (data) => {
     this.video.volume -= Number(data);
   };
+
+  faster = (data) => {
+    this.video.playbackRate += Number(data)
+  }
+
+  slower = (data) => {
+    this.video.playbackRate -= Number(data)
+  }
+
+  next = ()=>{
+    const title = document.title;
+    if(title.includes("stash")){
+      console.log("nexting now");
+    }
+  }
 }
 
 socket.on("play", (data) => {
@@ -59,6 +74,16 @@ socket.on("louder", ({ data }) => {
 socket.on("quieter", ({ data }) => {
   console.log("quieter");
   getCurrentPlayer().quieter(data);
+});
+
+socket.on("faster", ({ data }) => {
+  console.log("faster");
+  getCurrentPlayer().faster(data);
+});
+
+socket.on("slower", ({ data }) => {
+  console.log("slower");
+  getCurrentPlayer().slower(data);
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

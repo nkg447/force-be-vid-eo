@@ -17,10 +17,12 @@
   },
   "permissions": ["scripting", "storage", "tabs"],
   "host_permissions": [
+    "http://localhost:3000/*",
     "https://www.netflix.com/*",
     "https://www.primevideo.com/*",
     "https://www.hotstar.com/*",
     "https://www.youtube.com/*",
+    "http://p.i:9999/*",
     "file://*"
   ],
   "icons": {

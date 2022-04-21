@@ -5,7 +5,8 @@ const SUPPORTED_PLATFORMS = [
   "https://www.hotstar.com",
   "https://www.primevideo.com",
   "https://www.youtube.com",
-  "file://"
+  "file://",
+  "http://localhost:3000"
 ];
 init();
 
