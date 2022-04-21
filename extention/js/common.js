@@ -31,19 +31,33 @@ class Player {
   };
 
   faster = (data) => {
-    this.video.playbackRate += Number(data)
-  }
+    this.video.playbackRate += Number(data);
+  };
 
   slower = (data) => {
-    this.video.playbackRate -= Number(data)
-  }
+    this.video.playbackRate -= Number(data);
+  };
 
-  next = ()=>{
+  next = () => {
     const title = document.title;
-    if(title.includes("stash")){
-      console.log("nexting now");
+    if (title.includes("stash")) {
+      const btn = document.getElementById("playNext");
+      if (btn) {
+        btn.click();
+      } else {
+        const id = this.video.src.split("/")[4];
+        this.video.src = this.video.src.replace(id, id + 1);
+      }
     }
-  }
+  };
+
+  previous = () => {
+    const title = document.title;
+    if (title.includes("stash")) {
+      const id = this.video.src.split("/")[4];
+      this.video.src = this.video.src.replace(id, id - 1);
+    }
+  };
 }
 
 socket.on("play", (data) => {
@@ -86,6 +100,16 @@ socket.on("slower", ({ data }) => {
   getCurrentPlayer().slower(data);
 });
 
+socket.on("next", ({ data }) => {
+  console.log("next");
+  getCurrentPlayer().next();
+});
+
+socket.on("previous", ({ data }) => {
+  console.log("previous");
+  getCurrentPlayer().previous();
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   socket.emit("create", { id: request.id, joinCode: request.joinCode });
   sendResponse("Id Received");
@@ -105,7 +129,7 @@ function getCurrentPlayer() {
     video = document.querySelector(".playing");
   } else if (host.includes("youtube")) {
     video = document.querySelector(".video-stream.html5-main-video");
-  } else{
+  } else {
     video = document.querySelector("video");
   }
   return new Player(video);
