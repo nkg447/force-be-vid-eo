@@ -39,23 +39,36 @@ class Player {
   };
 
   next = () => {
-    const title = document.title;
-    if (title.includes("stash")) {
+    const title = window.location.host;
+    if (title.includes("localhost") || title.includes("p.i")) {
       const btn = document.getElementById("playNext");
       if (btn) {
         btn.click();
       } else {
-        const id = this.video.src.split("/")[4];
+        const id = Number(this.video.src.split("/")[4]);
         this.video.src = this.video.src.replace(id, id + 1);
       }
     }
   };
 
   previous = () => {
-    const title = document.title;
-    if (title.includes("stash")) {
-      const id = this.video.src.split("/")[4];
+    const title = window.location.host;
+    if (title.includes("localhost") || title.includes("p.i")) {
+      const id = Number(this.video.src.split("/")[4]);
       this.video.src = this.video.src.replace(id, id - 1);
+    }
+  };
+
+  fullscreen = () => {
+    const elem = this.video;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
     }
   };
 }
@@ -108,6 +121,11 @@ socket.on("next", ({ data }) => {
 socket.on("previous", ({ data }) => {
   console.log("previous");
   getCurrentPlayer().previous();
+});
+
+socket.on("fullscreen", ({ data }) => {
+  console.log("fullscreen");
+  getCurrentPlayer().fullscreen();
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
