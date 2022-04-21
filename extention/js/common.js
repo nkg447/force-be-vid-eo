@@ -39,24 +39,9 @@ class Player {
   };
 
   next = () => {
-    const title = window.location.host;
-    if (title.includes("localhost") || title.includes("p.i")) {
-      const btn = document.getElementById("playNext");
-      if (btn) {
-        btn.click();
-      } else {
-        const id = Number(this.video.src.split("/")[4]);
-        this.video.src = this.video.src.replace(id, id + 1);
-      }
-    }
   };
 
   previous = () => {
-    const title = window.location.host;
-    if (title.includes("localhost") || title.includes("p.i")) {
-      const id = Number(this.video.src.split("/")[4]);
-      this.video.src = this.video.src.replace(id, id - 1);
-    }
   };
 
   fullscreen = () => {
