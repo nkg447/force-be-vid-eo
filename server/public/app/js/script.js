@@ -24,6 +24,7 @@ function enablePlayer() {
   const slower = document.getElementById("slower");
   const previous = document.getElementById("previous");
   const next = document.getElementById("next");
+  const fullscreen = document.getElementById("fullscreen");
 
   let isPaused = true;
 
@@ -53,6 +54,10 @@ function enablePlayer() {
 
   previous.onclick = () => {
     executeCommand("previous");
+  };
+
+  fullscreen.onclick = () => {
+    executeCommand("fullscreen");
   };
 
   rewind.onclick = () => {
