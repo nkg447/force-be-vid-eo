@@ -60,15 +60,20 @@ class Player {
   };
 
   fullscreen = () => {
-    const elem = this.video;
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
+    const videoHolder = this.video;
+    if (document.fullScreen) document.cancelFullScreen();
+    if (document.webkitIsFullScreen) {
+      document.webkitCancelFullScreen();
+    } else if (document.msIsFullScreen) {
+      document.msExitFullscreen();
+    } else if (document.mozIsFullScreen) {
+      document.mozCancelFullScreen();
+    } else {
+      if (document.cancelFullScreen) videoHolder.requestFullscreen();
+      else if (document.webkitCancelFullScreen)
+        videoHolder.webkitRequestFullScreen();
+      else if (document.msExitFullscreen) videoHolder.msRequestFullscreen();
+      else if (document.mozCancelFullScreen) videoHolder.mozRequestFullScreen();
     }
   };
 }
