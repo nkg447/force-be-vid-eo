@@ -349,7 +349,6 @@ function processCommand(message) {
   
   const player = getCurrentPlayer();
   
-  // Map command types to player methods
   const commandMap = {
     play: () => player.play(),
     pause: () => player.pause(),
