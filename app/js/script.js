@@ -1,8 +1,21 @@
 const id = new URLSearchParams(window.location.search).get("id");
+console.log(id);
+let channel = null;
+
+const client = new WebRTCClient(
+  "https://signallite.nikunjgupta.dev",
+  id,
+  (event) => {},
+  (c) => {
+    console.log("setting channel");
+    channel = c;
+  }
+);
+client.createOffer();
+
 const SEEK_TIME = 30;
 const VOLUME_SEEK = 0.1;
 const PLAYBACK_SEEK = 0.1;
-let channel = null;
 setAllIcons();
 document.addEventListener("DOMContentLoaded", () => {
   if (id != null) {
@@ -100,15 +113,3 @@ function setAllIcons() {
       });
   }
 }
-console.log(id);
-
-new WebRTCClient(
-  "https://signallite.nikunjgupta.dev",
-  id,
-  (event) => {},
-  (c) => {
-    console.log("setting channel");
-    
-    channel = c;
-  }
-);

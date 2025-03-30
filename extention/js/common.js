@@ -98,6 +98,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       } else if (type == "previous") {
         console.log("previous");
         getCurrentPlayer().previous();
+      } else {
+        console.log("Unknown command", type);
       }
     }
   );

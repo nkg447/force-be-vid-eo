@@ -5,22 +5,32 @@ const SUPPORTED_PLATFORMS = [
   "https://www.primevideo.com",
   "https://www.youtube.com",
   "file://",
-  "http://localhost:3000"
+  "http://localhost:3000",
 ];
+
+const uuidv4 = () => {
+  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
+    (
+      +c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))
+    ).toString(16)
+  );
+};
+const uuid = uuidv4();
 init();
 
 function init() {
   doOnCurrentTab((tab) => {
     let supported = false;
-    for(let i=0;i<SUPPORTED_PLATFORMS.length;i++){
-      if(tab.url.startsWith(SUPPORTED_PLATFORMS[i])){
+    for (let i = 0; i < SUPPORTED_PLATFORMS.length; i++) {
+      if (tab.url.startsWith(SUPPORTED_PLATFORMS[i])) {
         supported = true;
         break;
       }
     }
-    if(supported){
+    if (supported) {
       document.getElementById("enable-btn").style.display = "flex";
-    }else{
+    } else {
       document.getElementById("not-supported").style.display = "unset";
     }
   });
@@ -32,12 +42,10 @@ function init() {
     }
   });
 
-  chrome.storage.sync.get("id").then(({ id }) => {
-    showQR(id);
-    const a = document.getElementById("website");
-    a.innerText = SERVER_BASE;
-    a.href = SERVER_BASE;
-  });
+  showQR(uuid);
+  const a = document.getElementById("website");
+  a.innerText = SERVER_BASE;
+  a.href = SERVER_BASE;
 
   document.getElementById("enable-btn").onclick = () => {
     document.querySelector("#enable-btn > img").src =
@@ -54,23 +62,19 @@ function init() {
 }
 
 function setPopupUI() {
-  chrome.storage.sync.get("id").then(({ id }) => {
-    run();
-    document.getElementById("connect-info").style.display = "unset";
-    setTimeout(() => sendId(id), 1000);
-  });
+  run();
+  document.getElementById("connect-info").style.display = "unset";
+  setTimeout(() => sendId(uuid), 1000);
 }
 
 function sendId(id) {
   doOnCurrentTab((tab) => {
     console.log(tab);
-    
+
     chrome.tabs.sendMessage(
       tab.id,
-      { id: id},
-      function (response) {
-        console.log(response);
-      }
+      { id: id },
+      console.log // log response
     );
   });
 }
@@ -96,17 +100,6 @@ function showQR(value) {
   const a = document.getElementById("qr-link");
   a.innerText = link;
   a.href = link;
-}
-
-function getRandomJoinCode() {
-  var randomPool = new Uint8Array(2);
-  crypto.getRandomValues(randomPool);
-  let hex = "";
-  for (var i = 0; i < randomPool.length; ++i) {
-    hex += randomPool[i].toString(16);
-  }
-  if (hex.length < 4) hex = "0" + hex;
-  return hex;
 }
 
 function doOnCurrentTab(callback) {
