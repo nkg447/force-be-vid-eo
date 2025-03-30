@@ -79,7 +79,7 @@ function run() {
   doOnCurrentTab((tab) => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      files: ["./js/external/socket.io.js", "./js/common.js"],
+      files: ["./js/external/webrtc-client.0.0.1.js", "./js/common.js"],
     });
   });
 }

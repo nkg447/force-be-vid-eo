@@ -1,5 +1,4 @@
 const SERVER_BASE = "https://forcebevideo.herokuapp.com";
-const socket = io.connect(SERVER_BASE);
 
 class Player {
   constructor(video) {
@@ -63,63 +62,67 @@ class Player {
   };
 }
 
-socket.on("play", (data) => {
-  console.log("playing");
-  getCurrentPlayer().play();
-});
-
-socket.on("pause", (data) => {
-  console.log("pause");
-  getCurrentPlayer().pause();
-});
-
-socket.on("forward", ({ data }) => {
-  console.log("forward");
-  getCurrentPlayer().forward(data);
-});
-
-socket.on("rewind", ({ data }) => {
-  console.log("rewind");
-  getCurrentPlayer().rewind(data);
-});
-
-socket.on("louder", ({ data }) => {
-  console.log("louder");
-  getCurrentPlayer().louder(data);
-});
-
-socket.on("quieter", ({ data }) => {
-  console.log("quieter");
-  getCurrentPlayer().quieter(data);
-});
-
-socket.on("faster", ({ data }) => {
-  console.log("faster");
-  getCurrentPlayer().faster(data);
-});
-
-socket.on("slower", ({ data }) => {
-  console.log("slower");
-  getCurrentPlayer().slower(data);
-});
-
-socket.on("next", ({ data }) => {
-  console.log("next");
-  getCurrentPlayer().next();
-});
-
-socket.on("previous", ({ data }) => {
-  console.log("previous");
-  getCurrentPlayer().previous();
-});
-
-socket.on("fullscreen", ({ data }) => {
-  console.log("fullscreen");
-  getCurrentPlayer().fullscreen();
-});
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  socket.emit("create", { id: request.id, joinCode: request.joinCode });
+  const client = new WebRTCClient(
+    "https://signallite.nikunjgupta.dev",
+    request.joinCode,
+    (event)=>{
+      socket.on("play", (data) => {
+        console.log("playing");
+        getCurrentPlayer().play();
+      });
+      
+      socket.on("pause", (data) => {
+        console.log("pause");
+        getCurrentPlayer().pause();
+      });
+      
+      socket.on("forward", ({ data }) => {
+        console.log("forward");
+        getCurrentPlayer().forward(data);
+      });
+      
+      socket.on("rewind", ({ data }) => {
+        console.log("rewind");
+        getCurrentPlayer().rewind(data);
+      });
+      
+      socket.on("louder", ({ data }) => {
+        console.log("louder");
+        getCurrentPlayer().louder(data);
+      });
+      
+      socket.on("quieter", ({ data }) => {
+        console.log("quieter");
+        getCurrentPlayer().quieter(data);
+      });
+      
+      socket.on("faster", ({ data }) => {
+        console.log("faster");
+        getCurrentPlayer().faster(data);
+      });
+      
+      socket.on("slower", ({ data }) => {
+        console.log("slower");
+        getCurrentPlayer().slower(data);
+      });
+      
+      socket.on("next", ({ data }) => {
+        console.log("next");
+        getCurrentPlayer().next();
+      });
+      
+      socket.on("previous", ({ data }) => {
+        console.log("previous");
+        getCurrentPlayer().previous();
+      });
+      
+      socket.on("fullscreen", ({ data }) => {
+        console.log("fullscreen");
+        getCurrentPlayer().fullscreen();
+      });
+    }
+  );
   sendResponse("Id Received");
 });
 
