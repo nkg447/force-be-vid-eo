@@ -1,5 +1,4 @@
 const SERVER_BASE = "https://forcebevideo.herokuapp.com/app";
-const JOIN_CODE = getRandomJoinCode();
 const SUPPORTED_PLATFORMS = [
   "https://www.netflix.com",
   "https://www.hotstar.com",
@@ -57,7 +56,6 @@ function init() {
 function setPopupUI() {
   chrome.storage.sync.get("id").then(({ id }) => {
     run();
-    document.getElementById("join-code").innerText = JOIN_CODE;
     document.getElementById("connect-info").style.display = "unset";
     setTimeout(() => sendId(id), 1000);
   });
@@ -67,7 +65,7 @@ function sendId(id) {
   doOnCurrentTab((tab) => {
     chrome.tabs.sendMessage(
       tab.id,
-      { id: id, joinCode: JOIN_CODE },
+      { id: id},
       function (response) {
         console.log(response);
       }

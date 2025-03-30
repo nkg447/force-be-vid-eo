@@ -37,11 +37,9 @@ class Player {
     this.video.playbackRate -= Number(data);
   };
 
-  next = () => {
-  };
+  next = () => {};
 
-  previous = () => {
-  };
+  previous = () => {};
 
   fullscreen = () => {
     const videoHolder = this.video;
@@ -65,62 +63,43 @@ class Player {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   const client = new WebRTCClient(
     "https://signallite.nikunjgupta.dev",
-    request.joinCode,
-    (event)=>{
-      socket.on("play", (data) => {
+    request.id,
+    (event) => {
+      const { data, type } = JSON.parse(event.data);
+      if (type == "play") {
         console.log("playing");
         getCurrentPlayer().play();
-      });
-      
-      socket.on("pause", (data) => {
-        console.log("pause");
+      } else if (type == "pause") {
+        console.log("pausing");
         getCurrentPlayer().pause();
-      });
-      
-      socket.on("forward", ({ data }) => {
-        console.log("forward");
+      } else if (type == "forward") {
+        console.log("forwarding");
         getCurrentPlayer().forward(data);
-      });
-      
-      socket.on("rewind", ({ data }) => {
-        console.log("rewind");
+      } else if (type == "rewind") {
+        console.log("rewinding");
         getCurrentPlayer().rewind(data);
-      });
-      
-      socket.on("louder", ({ data }) => {
+      } else if (type == "louder") {
         console.log("louder");
         getCurrentPlayer().louder(data);
-      });
-      
-      socket.on("quieter", ({ data }) => {
+      } else if (type == "quieter") {
         console.log("quieter");
         getCurrentPlayer().quieter(data);
-      });
-      
-      socket.on("faster", ({ data }) => {
+      } else if (type == "faster") {
         console.log("faster");
         getCurrentPlayer().faster(data);
-      });
-      
-      socket.on("slower", ({ data }) => {
+      } else if (type == "slower") {
         console.log("slower");
         getCurrentPlayer().slower(data);
-      });
-      
-      socket.on("next", ({ data }) => {
-        console.log("next");
-        getCurrentPlayer().next();
-      });
-      
-      socket.on("previous", ({ data }) => {
-        console.log("previous");
-        getCurrentPlayer().previous();
-      });
-      
-      socket.on("fullscreen", ({ data }) => {
+      } else if (type == "fullscreen") {
         console.log("fullscreen");
         getCurrentPlayer().fullscreen();
-      });
+      } else if (type == "next") {
+        console.log("next");
+        getCurrentPlayer().next();
+      } else if (type == "previous") {
+        console.log("previous");
+        getCurrentPlayer().previous();
+      }
     }
   );
   sendResponse("Id Received");
