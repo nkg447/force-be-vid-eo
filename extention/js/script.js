@@ -1,4 +1,4 @@
-const SERVER_BASE = "https://forcebevideo.herokuapp.com/app";
+const SERVER_BASE = "https://nikunjgupta.dev/force-be-vid-eo/app";
 const SUPPORTED_PLATFORMS = [
   "https://www.netflix.com",
   "https://www.hotstar.com",
@@ -63,6 +63,8 @@ function setPopupUI() {
 
 function sendId(id) {
   doOnCurrentTab((tab) => {
+    console.log(tab);
+    
     chrome.tabs.sendMessage(
       tab.id,
       { id: id},

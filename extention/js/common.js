@@ -1,5 +1,3 @@
-const SERVER_BASE = "https://forcebevideo.herokuapp.com";
-
 class Player {
   constructor(video) {
     this.video = video;
@@ -61,6 +59,7 @@ class Player {
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log("Received message from background script:", request);
   const client = new WebRTCClient(
     "https://signallite.nikunjgupta.dev",
     request.id,
