@@ -395,6 +395,23 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         } catch (error) {
           console.error("Error processing WebRTC message:", error);
         }
+      },
+      (backChannel) => {
+        // Back-channel to the controller — use it to push video state updates
+        console.log("Back-channel established, attaching video state listeners");
+        const player = getCurrentPlayer();
+        if (player.video) {
+          player.video.addEventListener('play', () => {
+            try {
+              backChannel.send(JSON.stringify({ type: 'state', data: { paused: false } }));
+            } catch (e) {}
+          });
+          player.video.addEventListener('pause', () => {
+            try {
+              backChannel.send(JSON.stringify({ type: 'state', data: { paused: true } }));
+            } catch (e) {}
+          });
+        }
       }
     );
     

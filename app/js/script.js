@@ -23,6 +23,22 @@ const sessionId = new URLSearchParams(window.location.search).get("id");
 console.log(`Session ID: ${sessionId ? sessionId : 'None - Join mode active'}`);
 
 /**
+ * Update the connection status bar
+ * @param {string} text - Status message to display
+ * @param {boolean} connected - Whether to apply the connected style
+ */
+function updateStatus(text, connected = false) {
+  const bar = document.getElementById('status-bar');
+  if (!bar) return;
+  bar.textContent = text;
+  if (connected) {
+    bar.classList.add('connected');
+  } else {
+    bar.classList.remove('connected');
+  }
+}
+
+/**
  * Initialize the WebRTC client connection
  * @param {string} id - The session identifier
  * @returns {Object} - The WebRTC client instance
@@ -40,13 +56,27 @@ function initializeWebRTCClient(id) {
       CONFIG.SIGNALING_SERVER,
       id,
       (event) => {
-        // Event handler for WebRTC events
-        console.log(`WebRTC event received:`, event);
+        // Receive state updates sent back from the browser content script
+        try {
+          const message = JSON.parse(event.data);
+          if (message.type === 'state') {
+            isPaused = message.data.paused;
+            const playEl = document.getElementById("play");
+            const pauseEl = document.getElementById("pause");
+            if (playEl && pauseEl) {
+              playEl.hidden = !isPaused;
+              pauseEl.hidden = isPaused;
+            }
+          }
+        } catch (e) {
+          // ignore malformed messages
+        }
       },
       (c) => {
-        // Channel handler
+        // Data channel established — commands can now be sent
         console.log("Data channel established successfully");
         channel = c;
+        updateStatus('Connected', true);
       }
     );
     
@@ -240,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (sessionId) {
     console.log("Session ID found, enabling player mode");
     document.getElementById("player").style.display = "flex";
+    updateStatus('Connecting...');
     
     // Initialize WebRTC and player controls
     initializeWebRTCClient(sessionId);
@@ -247,6 +278,18 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     console.log("No session ID found, enabling join mode");
     document.getElementById("join").style.display = "unset";
+
+    // Handle manual code entry — redirect to ?id=<code>
+    const form = document.getElementById("form");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const code = form.querySelector('input[name="code"]').value.trim().toUpperCase();
+        if (code) {
+          window.location.search = `?id=${encodeURIComponent(code)}`;
+        }
+      });
+    }
   }
 });
 

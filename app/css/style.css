@@ -25,6 +25,23 @@ body {
   justify-content: center;
 }
 
+#status-bar {
+  text-align: center;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  letter-spacing: 1px;
+  background: #3c3c3c;
+  color: #9aa0a6;
+  margin-bottom: 16px;
+  transition: background 0.3s, color 0.3s;
+}
+
+#status-bar.connected {
+  background: #1e3a2e;
+  color: #34a853;
+}
+
 #logo {
   display: flex;
   flex-direction: column;

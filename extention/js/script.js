@@ -38,17 +38,13 @@ const CONFIG = {
 };
 
 /**
- * Generate a cryptographically secure UUID v4
- * @returns {string} A random UUID v4 string
+ * Generate a cryptographically secure 6-character alphanumeric session code
+ * @returns {string} A random 6-char uppercase alphanumeric code (e.g. "X4R9KP")
  */
-const generateUUID = () => {
-  // Using crypto.getRandomValues for better randomness
-  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
-    (
-      +c ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))
-    ).toString(16)
-  );
+const generateCode = () => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const bytes = crypto.getRandomValues(new Uint8Array(6));
+  return Array.from(bytes).map(b => chars[b % chars.length]).join('');
 };
 
 /**
@@ -306,13 +302,13 @@ function initializePopup() {
   localStorageCleanup();
 }
 
-const uuid = generateUUID();
-console.log(`Generated session UUID: ${uuid}`);
+const uuid = generateCode();
+console.log(`Generated session code: ${uuid}`);
 initializePopup();
 
 // Export functions for debugging or testing
 window.extensionUtils = {
-  generateUUID,
+  generateCode,
   isTabSupported,
   sendId,
   doOnCurrentTab,

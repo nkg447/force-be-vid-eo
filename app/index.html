@@ -21,6 +21,7 @@
       <span>_______________</span>
     </div>
     <div id="player" style="display: none">
+      <div id="status-bar">Connecting...</div>
       <div id="volume">
         <div id="previous">
           <div class="icon" style="transform: scaleX(-1);" src="./assets/icons/next.svg"></div>
@@ -71,9 +72,9 @@
       </div>
     </div>
     <div id="join">
-      <form id="form" action="/join" method="get">
-        <input type="text" name="code" placeholder="Join Code here" />
-        <button>Join</button>
+      <form id="form">
+        <input type="text" name="code" placeholder="Join Code (e.g. X4R9KP)" autocomplete="off" autocapitalize="characters" />
+        <button type="submit">Join</button>
       </form>
     </div>
     <script src="https://github.com/nkg447/signallite/releases/download/0.0.2/webrtc-client0.0.2.js"></script>
