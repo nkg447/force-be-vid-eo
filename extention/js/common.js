@@ -401,16 +401,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         console.log("Back-channel established, attaching video state listeners");
         const player = getCurrentPlayer();
         if (player.video) {
-          player.video.addEventListener('play', () => {
+          const sendState = (paused) => {
             try {
-              backChannel.send(JSON.stringify({ type: 'state', data: { paused: false } }));
+              backChannel.send(JSON.stringify({ type: 'state', data: { paused } }));
             } catch (e) {}
-          });
-          player.video.addEventListener('pause', () => {
-            try {
-              backChannel.send(JSON.stringify({ type: 'state', data: { paused: true } }));
-            } catch (e) {}
-          });
+          };
+
+          // Immediately sync current state on connect
+          sendState(player.video.paused);
+
+          player.video.addEventListener('play', () => sendState(false));
+          player.video.addEventListener('pause', () => sendState(true));
         }
       }
     );
