@@ -201,7 +201,7 @@ function injectScripts() {
   doOnCurrentTab((tab) => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      files: ["./js/external/webrtc-client.0.0.1.js", "./js/common.js"],
+      files: ["./js/external/webrtc-client.js", "./js/common.js"],
     })
     .then(() => {
       console.log("Scripts injected successfully");
