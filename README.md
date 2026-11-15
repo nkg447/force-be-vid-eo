@@ -1,11 +1,18 @@
 
-<img  src="https://nikunjgupta.dev/force-be-vid-eo/extention/images/logo/logo.png"  alt="drawing"  width="100"/>
+<img src="./extention/images/logo/logo.png" alt="Force be Vid-eo icon: a video play button with a wireless signal" width="100"/>
 
   
 
 # Force be Vid-eo
 
 An extension that allows you to control a video playing on the browser remotely.
+
+## Icon
+
+The editable icon source is [logo.svg](./extention/images/logo/logo.svg).
+The extension uses PNG exports at 16, 32, 48, and 128 pixels, with a
+512-pixel [logo.png](./extention/images/logo/logo.png) for larger previews.
+The controller site's social image and favicon use the same design.
 
 <img src="https://nikunjgupta.dev/force-be-vid-eo/screenshot/browser.gif" width="400px" />
 

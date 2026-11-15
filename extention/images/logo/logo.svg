@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256">
+  <title>Force be Vid-eo</title>
+  <desc>A mint play button inside a video screen with a wireless signal on a rounded navy tile.</desc>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#24365c"/>
+      <stop offset="1" stop-color="#0c1428"/>
+    </linearGradient>
+    <linearGradient id="play" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#8fffe0"/>
+      <stop offset="1" stop-color="#36dcb2"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="248" height="248" rx="52" fill="url(#tile)"/>
+  <rect x="42" y="88" width="168" height="124" rx="24" fill="#152642" stroke="#e4ecff" stroke-width="12"/>
+  <path d="M106 119 Q106 113 112 117 L151 143 Q157 147 151 151 L112 177 Q106 181 106 175Z" fill="url(#play)"/>
+  <g fill="none" stroke="#72f5d0" stroke-width="10" stroke-linecap="round">
+    <path d="M163 39 Q195 7 227 39"/>
+    <path d="M179 55 Q195 39 211 55"/>
+  </g>
+  <circle cx="195" cy="72" r="6" fill="#72f5d0"/>
+</svg>
