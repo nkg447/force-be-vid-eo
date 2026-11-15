@@ -33,6 +33,7 @@ test('app displays connection and recovery stages', () => {
     createOffer() {}
   });
   app.utils.initializeWebRTCClient('ABC123');
+  assert.equal(callbacks[5].maxReconnectAttempts, -1);
   for (const [stage, text, connected] of [
     [0, 'Disconnected', false],
     [1, 'Waiting for peer...', false],

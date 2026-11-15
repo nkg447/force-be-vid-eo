@@ -92,6 +92,7 @@ test('content script reports and broadcasts its connection stage', () => {
   };
   vm.runInNewContext(contentSource, context);
   onMessage({ id: 'ABC123' }, {}, () => {});
+  assert.equal(clientArguments[5].maxReconnectAttempts, -1);
   clientArguments[4](2);
   onMessage({ type: 'get-connection-status' }, {}, result => { response = result; });
   assert.equal(response.id, 'ABC123');

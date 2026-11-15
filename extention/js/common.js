@@ -438,7 +438,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         chrome.runtime.sendMessage({ type: 'connection-status', id: connectionSessionId, stage }, () => {
           void chrome.runtime.lastError;
         });
-      }
+      },
+      { maxReconnectAttempts: -1 }
     );
     
     sendResponse("ID Received Successfully");

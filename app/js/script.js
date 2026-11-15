@@ -85,7 +85,8 @@ function initializeWebRTCClient(id) {
         if (stage === 2 || stage === 3) updateStatus('Connected', true);
         if (stage === 4) updateStatus('Reconnecting...');
         if (stage === 5) updateStatus('Connection failed');
-      }
+      },
+      { maxReconnectAttempts: -1 }
     );
     
     // Create and send offer to establish connection
