@@ -15,7 +15,7 @@
       "128": "/images/logo/icon-128.png"
     }
   },
-  "permissions": ["scripting", "storage", "tabs"],
+  "permissions": ["scripting", "tabs"],
   "host_permissions": [
     "http://localhost:3000/*",
     "https://www.netflix.com/*",
