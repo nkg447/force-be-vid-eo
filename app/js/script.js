@@ -81,8 +81,8 @@ function initializeWebRTCClient(id) {
       (stage) => {
         if ([0, 1, 4, 5].includes(stage)) channel = null;
         if (stage === 0) updateStatus('Disconnected');
-        if (stage === 1) updateStatus('Connecting...');
-        if (stage === 3) updateStatus('Connected (signaling offline)', true);
+        if (stage === 1) updateStatus('Waiting for peer...');
+        if (stage === 2 || stage === 3) updateStatus('Connected', true);
         if (stage === 4) updateStatus('Reconnecting...');
         if (stage === 5) updateStatus('Connection failed');
       }
@@ -93,6 +93,7 @@ function initializeWebRTCClient(id) {
     return client;
   } catch (error) {
     console.error("Failed to initialize WebRTC client:", error);
+    updateStatus('Connection failed');
     showErrorMessage("Connection failed. Please try again.");
     return null;
   }
