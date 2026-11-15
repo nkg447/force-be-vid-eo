@@ -10,16 +10,19 @@
         <span id="status">Disabled</span>
       </div>
       <div id="connect-info">
-        <div id="join-info" class="section">
-          <span>Join by scanning the QR code</span>
-          <span>OR</span>
-          <span>Copy the link directly</span>
-        </div>
-        <div id="qr-container" class="section">
-          <canvas id="qr"></canvas>
-        </div>
-        <div class="section">
-          <span>Link : <a id="qr-link"></a></span>
+        <div id="connection-status" class="section" role="status" aria-live="polite">Connecting...</div>
+        <div id="invite-info">
+          <div id="join-info" class="section">
+            <span>Join by scanning the QR code</span>
+            <span>OR</span>
+            <span>Copy the link directly</span>
+          </div>
+          <div id="qr-container" class="section">
+            <canvas id="qr"></canvas>
+          </div>
+          <div class="section">
+            <span>Link : <a id="qr-link"></a></span>
+          </div>
         </div>
       </div>
       <div id="not-supported">

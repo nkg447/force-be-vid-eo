@@ -26,15 +26,11 @@ const CONFIG = {
     CONNECT_INFO: "connect-info",
     QR_CODE: "qr",
     QR_LINK: "qr-link",
+    CONNECTION_STATUS: "connection-status",
+    INVITE_INFO: "invite-info",
     BUTTON_IMAGE: "#enable-btn > img",
     STATUS_TEXT: "#enable-btn > #status"
-  },
-  
-  // Local storage prefix for tab-specific data
-  STORAGE_PREFIX: "document-",
-  
-  // Delay before sending ID to content script (ms)
-  SEND_ID_DELAY: 1000
+  }
 };
 
 /**
@@ -69,38 +65,6 @@ function doOnCurrentTab(callback) {
     })
     .catch(error => {
       console.error("Error querying tabs:", error);
-    });
-}
-
-/**
- * Clean up localStorage by removing entries for closed tabs
- */
-function localStorageCleanup() {
-  console.log("Performing localStorage cleanup");
-  
-  const keys = Object.keys(localStorage);
-  const toKeep = [];
-  
-  chrome.tabs.query({})
-    .then((tabs) => {
-      // Create list of storage keys for open tabs
-      tabs.forEach(tab => {
-        toKeep.push(`${CONFIG.STORAGE_PREFIX}${tab.id}`);
-      });
-      
-      // Remove storage for closed tabs
-      let removedCount = 0;
-      keys.forEach(key => {
-        if (!toKeep.includes(key)) {
-          localStorage.removeItem(key);
-          removedCount++;
-        }
-      });
-      
-      console.log(`Cleanup complete: removed ${removedCount} items, kept ${toKeep.length} items`);
-    })
-    .catch(error => {
-      console.error("Error during localStorage cleanup:", error);
     });
 }
 
@@ -168,105 +132,66 @@ function showQR(sessionId) {
  * Send session ID to content script
  * @param {string} sessionId - The session identifier to send
  */
-function sendId(sessionId) {
+function sendId(sessionId, tabId) {
   console.log(`Preparing to send session ID: ${sessionId}`);
-  
-  doOnCurrentTab((tab) => {
-    console.log(`Sending session ID to tab ${tab.id}`);
-    
-    chrome.tabs.sendMessage(
-      tab.id,
-      { id: sessionId },
-      (response) => {
-        if (chrome.runtime.lastError) {
-          console.error("Error sending message:", chrome.runtime.lastError);
-          // Retry once after a delay
-          setTimeout(() => {
-            chrome.tabs.sendMessage(tab.id, { id: sessionId });
-          }, 2000);
-        } else {
-          console.log("Content script response:", response);
-        }
-      }
-    );
+  chrome.tabs.sendMessage(tabId, { id: sessionId }, (response) => {
+    if (chrome.runtime.lastError || (typeof response === 'string' && response.startsWith('Error:'))) {
+      console.error("Error initializing connection:", chrome.runtime.lastError || response);
+      updateConnectionStatus(5);
+    } else {
+      console.log("Content script response:", response);
+    }
   });
 }
 
 /**
  * Inject required scripts into current tab
  */
-function injectScripts() {
+function injectScripts(tabId, sessionId) {
   console.log("Injecting content scripts");
-  
-  doOnCurrentTab((tab) => {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ["./js/external/webrtc-client.js", "./js/common.js"],
-    })
+  chrome.scripting.executeScript({
+    target: { tabId },
+    files: ["./js/external/webrtc-client.js", "./js/common.js"],
+  })
     .then(() => {
       console.log("Scripts injected successfully");
+      sendId(sessionId, tabId);
     })
     .catch(error => {
       console.error("Script injection failed:", error);
+      updateConnectionStatus(5);
+      const enableBtn = document.getElementById(CONFIG.UI.ENABLE_BUTTON);
+      enableBtn.onclick = () => setupConnection(tabId, sessionId);
     });
-  });
 }
 
-/**
- * Configure popup UI for enabled state
- */
-function setPopupUI() {
-  console.log("Setting up popup UI for enabled state");
-  
-  // Inject scripts and show connection information
-  injectScripts();
-  
-  // Display connection information
-  const connectInfo = document.getElementById(CONFIG.UI.CONNECT_INFO);
-  if (connectInfo) {
-    connectInfo.style.display = "unset";
-  }
-  
-  // Send the session ID after a short delay
-  // This allows time for content scripts to initialize
-  setTimeout(() => sendId(uuid), CONFIG.SEND_ID_DELAY);
-}
-
-/**
- * Setup enable button click handler
- * @param {string} sessionId - The session identifier to use
- */
-function setupEnableButton(sessionId) {
-  const enableBtn = document.getElementById(CONFIG.UI.ENABLE_BUTTON);
-  if (!enableBtn) {
-    console.error("Enable button not found");
-    return;
-  }
-  
-  enableBtn.onclick = () => {
-    console.log("Enable button clicked");
-    
-    // Update button UI to show enabled state
-    const buttonImage = document.querySelector(CONFIG.UI.BUTTON_IMAGE);
-    if (buttonImage) {
-      buttonImage.src = "./images/icon/on-button.png";
-    }
-    
-    const statusText = document.querySelector(CONFIG.UI.STATUS_TEXT);
-    if (statusText) {
-      statusText.innerHTML = "Enabled";
-    }
-    
-    // Show connection information and save state
-    setPopupUI();
-    
-    // Save popup state for this tab
-    doOnCurrentTab((tab) => {
-      const storageKey = `${CONFIG.STORAGE_PREFIX}${tab.id}`;
-      localStorage.setItem(storageKey, document.body.innerHTML);
-      console.log(`State saved to localStorage: ${storageKey}`);
-    });
+function updateConnectionStatus(stage) {
+  const statuses = {
+    0: "Disconnected",
+    1: "Waiting for peer...",
+    2: "Connected",
+    3: "Connected (signaling offline)",
+    4: "Reconnecting...",
+    5: "Connection failed"
   };
+  document.getElementById(CONFIG.UI.CONNECTION_STATUS).textContent = statuses[stage] || "Connecting...";
+  document.getElementById(CONFIG.UI.INVITE_INFO).hidden = stage === 2 || stage === 3;
+}
+
+function showEnabled(sessionId, stage) {
+  const enableBtn = document.getElementById(CONFIG.UI.ENABLE_BUTTON);
+  enableBtn.onclick = null;
+  document.querySelector(CONFIG.UI.BUTTON_IMAGE).src = "./images/icon/on-button.png";
+  document.querySelector(CONFIG.UI.STATUS_TEXT).textContent = "Enabled";
+  document.getElementById(CONFIG.UI.CONNECT_INFO).style.display = "unset";
+  showQR(sessionId);
+  updateConnectionStatus(stage);
+}
+
+function setupConnection(tabId, sessionId) {
+  activeSessionId = sessionId;
+  showEnabled(sessionId, 1);
+  injectScripts(tabId, sessionId);
 }
 
 /**
@@ -274,36 +199,33 @@ function setupEnableButton(sessionId) {
  */
 function initializePopup() {
   console.log("Initializing extension popup");
-  
-  // Check if current tab is supported
   doOnCurrentTab((tab) => {
-    if (isTabSupported(tab)) {
-      document.getElementById(CONFIG.UI.ENABLE_BUTTON).style.display = "flex";
-    } else {
+    if (!isTabSupported(tab)) {
       document.getElementById(CONFIG.UI.NOT_SUPPORTED).style.display = "unset";
+      return;
     }
+    activeTabId = tab.id;
+    const enableBtn = document.getElementById(CONFIG.UI.ENABLE_BUTTON);
+    enableBtn.style.display = "flex";
+    chrome.tabs.sendMessage(tab.id, { type: 'get-connection-status' }, (response) => {
+      if (chrome.runtime.lastError || !response || !response.id) {
+        enableBtn.onclick = () => setupConnection(tab.id, generateCode());
+        return;
+      }
+      activeSessionId = response.id;
+      showEnabled(response.id, response.stage);
+    });
   });
-  
-  // Restore saved popup state if it exists
-  doOnCurrentTab((tab) => {
-    const storageKey = `${CONFIG.STORAGE_PREFIX}${tab.id}`;
-    const savedHTML = localStorage.getItem(storageKey);
-    
-    if (savedHTML) {
-      console.log(`Restoring saved state for tab ${tab.id}`);
-      document.body.innerHTML = savedHTML;
-      setPopupUI();
-    }
-  });
-  
-  // Set up server information and QR code
-  showQR(uuid);
-  setupEnableButton(uuid);
-  localStorageCleanup();
 }
 
-const uuid = generateCode();
-console.log(`Generated session code: ${uuid}`);
+let activeTabId = null;
+let activeSessionId = null;
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (message.type === 'connection-status' && sender.tab &&
+      sender.tab.id === activeTabId && message.id === activeSessionId) {
+    updateConnectionStatus(message.stage);
+  }
+});
 initializePopup();
 
 // Export functions for debugging or testing
@@ -311,6 +233,5 @@ window.extensionUtils = {
   generateCode,
   isTabSupported,
   sendId,
-  doOnCurrentTab,
-  localStorageCleanup
+  doOnCurrentTab
 };

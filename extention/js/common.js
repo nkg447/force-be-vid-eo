@@ -370,11 +370,18 @@ function processCommand(message) {
   }
 }
 
+let connectionSessionId = null;
+let connectionStage = 0;
+
 // Listen for messages from the extension background script
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log("Received message from background script:", request);
   
   try {
+    if (request && request.type === 'get-connection-status') {
+      sendResponse({ id: connectionSessionId, stage: connectionStage });
+      return;
+    }
     if (!request || !request.id) {
       console.error("Invalid message format, missing ID");
       sendResponse("Error: Invalid message format");
@@ -382,6 +389,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     
     console.log(`Initializing WebRTC client with ID: ${request.id}`);
+
+    connectionSessionId = request.id;
+    connectionStage = 1;
 
     let backChannel = null;
     let watchedVideo = null;
@@ -423,7 +433,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         sendState();
       },
       (stage) => {
+        connectionStage = stage;
         if ([0, 1, 4, 5].includes(stage)) backChannel = null;
+        chrome.runtime.sendMessage({ type: 'connection-status', id: connectionSessionId, stage }, () => {
+          void chrome.runtime.lastError;
+        });
       }
     );
     
