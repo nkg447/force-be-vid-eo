@@ -77,6 +77,14 @@ function initializeWebRTCClient(id) {
         console.log("Data channel established successfully");
         channel = c;
         updateStatus('Connected', true);
+      },
+      (stage) => {
+        if ([0, 1, 4, 5].includes(stage)) channel = null;
+        if (stage === 0) updateStatus('Disconnected');
+        if (stage === 1) updateStatus('Connecting...');
+        if (stage === 3) updateStatus('Connected (signaling offline)', true);
+        if (stage === 4) updateStatus('Reconnecting...');
+        if (stage === 5) updateStatus('Connection failed');
       }
     );
     
@@ -209,7 +217,7 @@ function enablePlayer() {
  * @param {Object} data - Additional data for the command
  */
 function executeCommand(command, data = {}) {
-  if (!channel) {
+  if (!channel || channel.readyState !== 'open') {
     console.error("Cannot execute command: Data channel not established");
     return;
   }

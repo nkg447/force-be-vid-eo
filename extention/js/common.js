@@ -382,6 +382,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     
     console.log(`Initializing WebRTC client with ID: ${request.id}`);
+
+    let backChannel = null;
+    let watchedVideo = null;
+    const sendState = () => {
+      if (backChannel && backChannel.readyState === 'open' && watchedVideo) {
+        backChannel.send(JSON.stringify({ type: 'state', data: { paused: watchedVideo.paused } }));
+      }
+    };
     
     // Initialize WebRTC client for communication
     const client = new WebRTCClient(
@@ -396,23 +404,26 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           console.error("Error processing WebRTC message:", error);
         }
       },
-      (backChannel) => {
+      (channel) => {
         // Back-channel to the controller — use it to push video state updates
         console.log("Back-channel established, attaching video state listeners");
+        backChannel = channel;
         const player = getCurrentPlayer();
-        if (player.video) {
-          const sendState = (paused) => {
-            try {
-              backChannel.send(JSON.stringify({ type: 'state', data: { paused } }));
-            } catch (e) {}
-          };
-
-          // Immediately sync current state on connect
-          sendState(player.video.paused);
-
-          player.video.addEventListener('play', () => sendState(false));
-          player.video.addEventListener('pause', () => sendState(true));
+        if (player.video !== watchedVideo) {
+          if (watchedVideo) {
+            watchedVideo.removeEventListener('play', sendState);
+            watchedVideo.removeEventListener('pause', sendState);
+          }
+          watchedVideo = player.video;
+          if (watchedVideo) {
+            watchedVideo.addEventListener('play', sendState);
+            watchedVideo.addEventListener('pause', sendState);
+          }
         }
+        sendState();
+      },
+      (stage) => {
+        if ([0, 1, 4, 5].includes(stage)) backChannel = null;
       }
     );
     
